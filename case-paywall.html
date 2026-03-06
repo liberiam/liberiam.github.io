@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paywall Design — Mary Timofeeva</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap');
+
+:root {
+  --cream: #F5F0E8;
+  --ink: #1A1714;
+  --warm-gray: #8C8479;
+  --accent: #C4622D;
+  --accent-light: #E8956A;
+  --surface: #EDE8DF;
+  --border: rgba(26,23,20,0.1);
+  --card: #FDFAF5;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  cursor: none;
+}
+
+.cursor {
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s ease;
+  transform: translate(-50%, -50%);
+}
+.cursor-ring {
+  width: 32px; height: 32px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  transition: transform 0.35s ease, width 0.3s, height 0.3s, opacity 0.3s;
+  transform: translate(-50%, -50%);
+  opacity: 0.5;
+}
+
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 64px;
+  background: rgba(245, 240, 232, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.nav-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-back:hover { color: var(--accent); }
+
+/* Hero */
+.case-hero {
+  padding: 130px 80px 72px;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 80px;
+  align-items: end;
+  border-bottom: 1px solid var(--border);
+}
+
+.case-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.1s forwards;
+}
+
+.case-hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(40px, 5.5vw, 76px);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.5px;
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.25s forwards;
+}
+
+.case-hero h1 em { font-style: italic; color: var(--accent); }
+
+.case-hero-desc {
+  font-size: 17px;
+  color: var(--warm-gray);
+  max-width: 520px;
+  line-height: 1.8;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.4s forwards;
+}
+
+.case-meta-grid {
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.3s forwards;
+}
+
+.meta-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+.meta-row:first-child { border-top: 1px solid var(--border); }
+
+.meta-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+}
+
+.meta-value {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+.meta-value a { color: var(--accent); text-decoration: none; }
+.meta-value a:hover { text-decoration: underline; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Cover strip */
+.cover-strip {
+  background: var(--surface);
+  padding: 0 80px;
+}
+
+.cover-strip img {
+  width: 100%;
+  display: block;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 -4px 40px rgba(26,23,20,0.08);
+}
+
+/* Sections */
+.case-section {
+  padding: 80px 80px;
+  border-bottom: 1px solid var(--border);
+}
+.case-section.alt { background: var(--surface); }
+
+.section-label {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.section-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--accent);
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 300;
+  line-height: 1.1;
+}
+.section-title em { font-style: italic; color: var(--accent); }
+
+/* Body text */
+.body-text {
+  font-size: 16px;
+  color: var(--warm-gray);
+  line-height: 1.85;
+  max-width: 680px;
+}
+.body-text p { margin-bottom: 18px; }
+.body-text p:last-child { margin-bottom: 0; }
+.body-text strong { color: var(--ink); font-weight: 500; }
+
+/* Two columns */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: start;
+}
+.two-col.wider-text { grid-template-columns: 1.3fr 0.7fr; }
+.two-col.wider-img  { grid-template-columns: 0.7fr 1.3fr; }
+
+/* Images */
+.case-img {
+  width: 100%;
+  border-radius: 8px;
+  display: block;
+  box-shadow: 0 8px 32px rgba(26,23,20,0.09);
+}
+
+.img-caption {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+  margin-top: 10px;
+  opacity: 0.65;
+}
+
+/* Decision cards */
+.decision-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 48px;
+}
+
+.decision-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px 24px 28px;
+}
+
+.dc-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 1.5px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.decision-card h4 {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  margin-bottom: 10px;
+}
+
+.decision-card p {
+  font-size: 13px;
+  color: var(--warm-gray);
+  line-height: 1.65;
+}
+
+/* User block */
+.user-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px 36px;
+}
+
+.user-card-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.user-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+
+.user-card p {
+  font-size: 14px;
+  color: var(--warm-gray);
+  line-height: 1.65;
+}
+
+.user-needs {
+  list-style: none;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.user-needs li {
+  font-size: 13px;
+  color: var(--warm-gray);
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.user-needs li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 11px;
+  top: 2px;
+}
+
+/* Image grid 2-up */
+.img-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 40px;
+}
+
+/* Reflection */
+.reflection {
+  background: var(--ink);
+  color: var(--cream);
+  border-radius: 12px;
+  padding: 40px 48px;
+  max-width: 760px;
+}
+
+.reflection p {
+  font-size: 15.5px;
+  line-height: 1.85;
+  color: rgba(245,240,232,0.72);
+  margin-bottom: 18px;
+}
+
+.reflection p:last-child { margin-bottom: 0; }
+.reflection strong { color: var(--cream); font-weight: 500; }
+
+/* Result pills */
+.result-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 32px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.pill-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+/* Bottom nav */
+.bottom-nav {
+  background: var(--ink);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.bn-item {
+  padding: 48px 60px;
+  text-decoration: none;
+  color: var(--cream);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: background 0.2s;
+  border: none;
+}
+
+.bn-item:hover { background: rgba(255,255,255,0.05); }
+.bn-item + .bn-item { border-left: 1px solid rgba(255,255,255,0.08); text-align: right; }
+
+.bn-dir {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.38);
+}
+
+.bn-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 300;
+}
+
+footer {
+  background: var(--ink);
+  text-align: center;
+  padding: 24px 48px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: rgba(245,240,232,0.3);
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+footer a { color: rgba(245,240,232,0.45); text-decoration: none; }
+footer a:hover { color: var(--accent-light); }
+
+/* Reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 900px) {
+  nav { padding: 18px 24px; }
+  .case-hero { grid-template-columns: 1fr; padding: 110px 24px 48px; gap: 40px; }
+  .cover-strip { padding: 0 24px; }
+  .case-section { padding: 56px 24px; }
+  .two-col, .two-col.wider-text, .two-col.wider-img { grid-template-columns: 1fr; gap: 28px; }
+  .decision-grid { grid-template-columns: 1fr; }
+  .img-row { grid-template-columns: 1fr; }
+  .bottom-nav { grid-template-columns: 1fr; }
+  .bn-item + .bn-item { border-left: none; border-top: 1px solid rgba(255,255,255,0.08); text-align: left; }
+  .reflection { padding: 28px 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">Mary Timofeeva</a>
+  <a href="index.html#work" class="nav-back">← All work</a>
+</nav>
+
+<!-- ─── HERO ─────────────────────────────────────────────── -->
+<div class="case-hero">
+  <div>
+    <div class="case-eyebrow">Case Study · Mobile · EdTech · 2025</div>
+    <h1>Paywall for<br>children's <em>educational</em><br>mobile games</h1>
+    <p class="case-hero-desc">
+      Designing a conversion-focused subscription screen that balances business goals,
+      parental trust, and legal compliance — all on a single mobile screen.
+    </p>
+  </div>
+  <div class="case-meta-grid">
+    <div class="meta-row">
+      <span class="meta-label">My Role</span>
+      <span class="meta-value">UX/UI Designer — solo project</span>
+    </div>
+    <div class="meta-row">
+      <span class="meta-label">Tools</span>
+      <span class="meta-value">Figma · Adobe Photoshop · FigJam</span>
+    </div>
+    <div class="meta-row">
+      <span class="meta-label">Deliverables</span>
+      <span class="meta-value">UI design · Interactive prototype · User flow</span>
+    </div>
+    <div class="meta-row">
+      <span class="meta-label">View on Behance</span>
+      <span class="meta-value">
+        <a href="https://www.behance.net/gallery/243263725/Paywall-for-mobile-app" target="_blank">UI Design ↗</a>
+        &nbsp;·&nbsp;
+        <a href="https://www.behance.net/gallery/243292139/Paywall-Interactive-prototype" target="_blank">Prototype ↗</a>
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- Cover image -->
+<div class="cover-strip">
+  <img src="assets/paywall-1.png" alt="Paywall for children's educational mobile games">
+</div>
+
+<!-- ─── 01 CONTEXT ───────────────────────────────────────── -->
+<div class="case-section reveal">
+  <div class="section-label">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Context</h2>
+  </div>
+  <div class="two-col wider-text">
+    <div class="body-text">
+      <p>
+        The client is a mobile gaming studio behind a catalog of <strong>20+ educational apps for children aged 3–8</strong> — covering reading, math, music, and creative play. All apps are designed for screen time parents feel good about.
+      </p>
+      <p>
+        The task: design a <strong>paywall screen</strong> shown when a parent tries to access premium content.
+        The screen needed to convert parents into subscribers while making them feel confident,
+        not pressured, about the purchase.
+      </p>
+      <p>
+        I was the sole designer — responsible for research, UX logic, UI design, and the interactive Figma prototype.
+      </p>
+    </div>
+    <div>
+      <img src="assets/paywall-2.png" alt="Project goals" class="case-img">
+      <p class="img-caption">Goals defined at the start</p>
+    </div>
+  </div>
+</div>
+
+<!-- ─── 02 PROBLEM ───────────────────────────────────────── -->
+<div class="case-section alt reveal">
+  <div class="section-label">
+    <span class="section-num">02</span>
+    <h2 class="section-title">The <em>problem</em></h2>
+  </div>
+  <div class="body-text">
+    <p>
+      A paywall for a children's app has a core tension: <strong>the decision-maker is not the user.</strong>
+      The child plays; the parent pays. Parents are interrupted mid-session, often skeptical,
+      and need specific reassurances before entering their payment details.
+    </p>
+    <p>
+      Common conversion tactics — countdown timers, hidden cancellation, dark patterns — would backfire here.
+      Parents of young children are acutely sensitive to feeling manipulated.
+      The screen needed to do the opposite: <strong>build trust fast, show real value, feel transparent.</strong>
+    </p>
+    <p>
+      On top of that, app store guidelines and regional regulations require that subscription terms,
+      cancellation policy, and legal documents are clearly accessible <strong>before purchase, without scrolling</strong>.
+      Design and compliance had to be solved together.
+    </p>
+  </div>
+</div>
+
+<!-- ─── 03 USER ───────────────────────────────────────────── -->
+<div class="case-section reveal">
+  <div class="section-label">
+    <span class="section-num">03</span>
+    <h2 class="section-title">The <em>user</em></h2>
+  </div>
+  <div class="two-col">
+    <div class="user-card">
+      <div class="user-card-label">Primary persona</div>
+      <h3>The Conscious Parent</h3>
+      <p>Parent of a child aged 3–8. Values educational screen time. Concerned about data privacy. Makes purchase decisions quickly on mobile — often mid play-session.</p>
+      <ul class="user-needs">
+        <li>Needs to instantly understand what they're paying for</li>
+        <li>Needs reassurance: safe, educational, worth the price</li>
+        <li>Needs confidence that child data is protected</li>
+        <li>Needs legal info visible before purchase — no surprises</li>
+        <li>Wants 1–2 taps to complete, not a multi-step flow</li>
+      </ul>
+    </div>
+    <div class="body-text">
+      <p>
+        One key insight shaped the layout: <strong>parental guilt about screen time is real.</strong>
+        A parent who believes the subscription delivers genuine educational value —
+        not just entertainment — is far more likely to convert and stay subscribed.
+      </p>
+      <p>
+        This is why the screen leads with the game carousel and feature icons before the price.
+        Value is established first; cost comes after.
+      </p>
+      <p>
+        <strong>Offline Mode</strong> received special visual emphasis.
+        For parents who travel with children, the ability to play without internet
+        is often the single most persuasive feature.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ─── 04 PROCESS ───────────────────────────────────────── -->
+<div class="case-section alt reveal">
+  <div class="section-label">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Process</h2>
+  </div>
+  <div class="body-text">
+    <p>
+      I began by mapping the user flow — every path from seeing the paywall
+      to completing or declining a purchase. The "No" path needed design attention too:
+      declining shouldn't feel punitive, and the free tier should remain accessible without friction.
+    </p>
+  </div>
+
+  <div style="margin-top: 36px;">
+    <img src="assets/paywall-6.png" alt="User flow diagram" class="case-img">
+    <p class="img-caption">User flow — from paywall trigger to subscription or free-tier fallback</p>
+  </div>
+
+  <div class="decision-grid">
+    <div class="decision-card">
+      <span class="dc-num">Decision 01</span>
+      <h4>Lead with the game catalog, not the price</h4>
+      <p>A scrolling carousel of 20+ game covers immediately shows the scope of what's included. Vibrant visuals reduce hesitation before the price appears.</p>
+    </div>
+    <div class="decision-card">
+      <span class="dc-num">Decision 02</span>
+      <h4>Yearly plan pre-selected with a clear discount badge</h4>
+      <p>Annual plan is highlighted from load with a –50% badge. Monthly exists as a low-commitment entry without undermining the annual value proposition.</p>
+    </div>
+    <div class="decision-card">
+      <span class="dc-num">Decision 03</span>
+      <h4>Everything on one screen — no scrolling required</h4>
+      <p>Features, pricing, CTA, cancellation notice, and legal links all fit in a single viewport. This satisfies both UX goals and compliance requirements simultaneously.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ─── 05 FINAL SOLUTION ─────────────────────────────────── -->
+<div class="case-section reveal">
+  <div class="section-label">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Final <em>solution</em></h2>
+  </div>
+
+  <div class="two-col wider-img" style="margin-bottom: 40px;">
+    <div class="body-text">
+      <p>
+        The screen follows a clear visual hierarchy:
+        <strong>value → features → price → action.</strong>
+        Every element earns its place.
+      </p>
+      <p>
+        The carousel autoscrolls to show variety.
+        The five benefit icons use color-coded iconography parents recognize instantly.
+        Pricing cards are visually distinct — the yearly plan uses an orange border
+        to signal recommendation without forcing it.
+      </p>
+      <p>
+        The CTA button always reflects the selected plan,
+        reinforcing the parent's choice rather than pressuring them toward a default.
+      </p>
+    </div>
+    <div>
+      <img src="assets/paywall-7.png" alt="Both subscription states — yearly and monthly selected" class="case-img">
+      <p class="img-caption">Both states: yearly selected (left) and monthly selected (right)</p>
+    </div>
+  </div>
+
+  <div class="img-row">
+    <div>
+      <img src="assets/paywall-3.png" alt="Header — carousel and benefit icons" class="case-img">
+      <p class="img-caption">Header: scrolling carousel + benefit icons</p>
+    </div>
+    <div>
+      <img src="assets/paywall-4.png" alt="Pricing section with annual plan highlighted" class="case-img">
+      <p class="img-caption">Pricing with annual plan pre-selected</p>
+    </div>
+  </div>
+
+  <div style="margin-top: 24px;">
+    <img src="assets/paywall-5.png" alt="CTA and legal information — no scrolling required" class="case-img">
+    <p class="img-caption">CTA + cancellation notice + legal links — all without scrolling</p>
+  </div>
+
+  <!-- Prototype video -->
+  <div style="margin-top: 64px;">
+    <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:24px;">
+      <span style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--accent);">Prototype</span>
+      <h3 style="font-family:'Cormorant Garamond',serif; font-size:clamp(22px,2.5vw,32px); font-weight:300;">Interactive <em style="font-style:italic; color:var(--accent);">walkthrough</em></h3>
+    </div>
+    <p style="font-size:15px; color:var(--warm-gray); max-width:640px; line-height:1.8; margin-bottom:28px;">
+      The prototype demonstrates the full purchase flow: the game carousel opens immediately,
+      the parent selects a plan and taps <em>Unlock all 20+ apps</em>, which triggers the native
+      in-app purchase sheet with Face ID / Touch ID. Legal documents open as overlay screens
+      without leaving the paywall. Closing the paywall returns the user to the game — no dead ends.
+    </p>
+    <div style="position:relative; width:100%; padding-top:56.25%; border-radius:10px; overflow:hidden; box-shadow:0 12px 48px rgba(26,23,20,0.14);">
+      <iframe
+        src="https://www.youtube.com/embed/jm4gy29T9vM"
+        title="Paywall Interactive Prototype Walkthrough"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        style="position:absolute; top:0; left:0; width:100%; height:100%; border-radius:10px;">
+      </iframe>
+    </div>
+    <p class="img-caption" style="margin-top:12px;">Interactive prototype walkthrough — Figma, 5 flow steps</p>
+  </div>
+</div>
+
+<!-- ─── 06 REFLECTION ────────────────────────────────────── -->
+<div class="case-section alt reveal">
+  <div class="section-label">
+    <span class="section-num">06</span>
+    <h2 class="section-title">What I'd do <em>differently</em></h2>
+  </div>
+  <div class="reflection">
+    <p>
+      The biggest gap I'd close next time is <strong>the absence of real user testing</strong>.
+      All decisions — the carousel lead, the pre-selected annual plan,
+      the weight given to Offline Mode — are grounded in UX reasoning,
+      but not validated with real parents. Even five moderated sessions
+      would either confirm the hierarchy or reveal blind spots I couldn't see from a desk.
+    </p>
+    <p>
+      I'd also explore a <strong>free-trial variant of the CTA</strong>.
+      A "Start 7-day free trial" framing consistently reduces abandonment
+      on paywalls for family-focused apps. I built the current version
+      around a direct purchase flow — testing it against a trial variant
+      would be the obvious next experiment.
+    </p>
+    <p>
+      Finally, the <strong>plan-switching animation in the prototype</strong>
+      could be more considered. It's functional right now, but a more deliberate
+      micro-interaction — the price smoothly transitioning between states —
+      would reinforce the quality signal the rest of the design works hard to establish.
+    </p>
+  </div>
+</div>
+
+<!-- ─── 07 RESULT ─────────────────────────────────────────── -->
+<div class="case-section reveal">
+  <div class="section-label">
+    <span class="section-num">07</span>
+    <h2 class="section-title">Result</h2>
+  </div>
+  <div class="body-text">
+    <p>
+      The project was delivered as a <strong>complete UI design</strong> and an
+      <strong>interactive Figma prototype</strong> demonstrating both subscription states
+      and the full purchase flow, including Face ID / Touch ID authentication steps.
+    </p>
+    <p>
+      The interactive prototype let the client test and present the flow to stakeholders
+      without developer involvement, shortening the feedback cycle significantly.
+      The design was approved without structural revisions.
+    </p>
+  </div>
+  <div class="result-pills">
+    <span class="pill"><span class="pill-dot"></span> Full UI design delivered</span>
+    <span class="pill"><span class="pill-dot"></span> Interactive Figma prototype</span>
+    <span class="pill"><span class="pill-dot"></span> User flow documented</span>
+    <span class="pill"><span class="pill-dot"></span> Approved without structural revisions</span>
+    <span class="pill"><span class="pill-dot"></span> Legal compliance built into layout</span>
+  </div>
+</div>
+
+<!-- Bottom nav -->
+<div class="bottom-nav">
+  <a href="index.html#work" class="bn-item">
+    <span class="bn-dir">← Back</span>
+    <span class="bn-title">All Case Studies</span>
+  </a>
+  <a href="case-kids-podcasts.html" class="bn-item">
+    <span class="bn-dir">Next →</span>
+    <span class="bn-title">Kids' Podcast App</span>
+  </a>
+</div>
+
+<footer>
+  <a href="index.html">Mary Timofeeva</a> &nbsp;·&nbsp;
+  <a href="mailto:liberiam@gmail.com">liberiam@gmail.com</a> &nbsp;·&nbsp;
+  <a href="https://dribbble.com/liberiam" target="_blank">Dribbble</a> &nbsp;·&nbsp;
+  <a href="https://www.linkedin.com/in/mary-timofeeva-184484382/" target="_blank">LinkedIn</a>
+</footer>
+
+<script>
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+});
+
+(function animateRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animateRing);
+})();
+
+document.querySelectorAll('a').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(2.5)';
+    ring.style.opacity = '0.15';
+    ring.style.width = '50px'; ring.style.height = '50px';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+    ring.style.opacity = '0.5';
+    ring.style.width = '32px'; ring.style.height = '32px';
+  });
+});
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+  });
+}, { threshold: 0.07 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
