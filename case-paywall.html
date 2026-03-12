@@ -4,469 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Paywall Design — Mary Timofeeva</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="typography.css">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap');
-
-:root {
-  --cream: #F5F0E8;
-  --ink: #1A1714;
-  --warm-gray: #8C8479;
-  --accent: #C4622D;
-  --accent-light: #E8956A;
-  --surface: #EDE8DF;
-  --border: rgba(26,23,20,0.1);
-  --card: #FDFAF5;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-
-body {
-  background: var(--cream);
-  color: var(--ink);
-  font-family: 'Outfit', sans-serif;
-  font-weight: 300;
-  line-height: 1.7;
-  cursor: none;
-}
-
-.cursor {
-  width: 8px; height: 8px;
-  background: var(--accent);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  transition: transform 0.15s ease;
-  transform: translate(-50%, -50%);
-}
-.cursor-ring {
-  width: 32px; height: 32px;
-  border: 1px solid var(--accent);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9998;
-  transition: transform 0.35s ease, width 0.3s, height 0.3s, opacity 0.3s;
-  transform: translate(-50%, -50%);
-  opacity: 0.5;
-}
-
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 22px 64px;
-  background: rgba(245, 240, 232, 0.92);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-}
-
-.nav-logo {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  text-decoration: none;
-  color: var(--ink);
-}
-
-.nav-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 11px;
-  font-family: 'DM Mono', monospace;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--warm-gray);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-.nav-back:hover { color: var(--accent); }
-
-/* Hero */
-.case-hero {
-  padding: 130px 80px 72px;
-  display: grid;
-  grid-template-columns: 1fr 380px;
-  gap: 80px;
-  align-items: end;
-  border-bottom: 1px solid var(--border);
-}
-
-.case-eyebrow {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 20px;
-  opacity: 0;
-  animation: fadeUp 0.7s ease 0.1s forwards;
-}
-
-.case-hero h1 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(40px, 5.5vw, 76px);
-  font-weight: 300;
-  line-height: 1.05;
-  letter-spacing: -0.5px;
-  margin-bottom: 28px;
-  opacity: 0;
-  animation: fadeUp 0.7s ease 0.25s forwards;
-}
-
-.case-hero h1 em { font-style: italic; color: var(--accent); }
-
-.case-hero-desc {
-  font-size: 17px;
-  color: var(--warm-gray);
-  max-width: 520px;
-  line-height: 1.8;
-  opacity: 0;
-  animation: fadeUp 0.7s ease 0.4s forwards;
-}
-
-.case-meta-grid {
-  opacity: 0;
-  animation: fadeUp 0.7s ease 0.3s forwards;
-}
-
-.meta-row {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--border);
-}
-.meta-row:first-child { border-top: 1px solid var(--border); }
-
-.meta-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: var(--warm-gray);
-}
-
-.meta-value {
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--ink);
-  line-height: 1.5;
-}
-
-.meta-value a { color: var(--accent); text-decoration: none; }
-.meta-value a:hover { text-decoration: underline; }
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(18px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* Cover strip */
-.cover-strip {
-  background: var(--surface);
-  padding: 0 80px;
-}
-
-.cover-strip img {
-  width: 100%;
-  display: block;
-  border-radius: 8px 8px 0 0;
-  box-shadow: 0 -4px 40px rgba(26,23,20,0.08);
-}
-
-/* Sections */
-.case-section {
-  padding: 80px 80px;
-  border-bottom: 1px solid var(--border);
-}
-.case-section.alt { background: var(--surface); }
-
-.section-label {
-  display: flex;
-  align-items: baseline;
-  gap: 16px;
-  margin-bottom: 40px;
-}
-
-.section-num {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 2px;
-  color: var(--accent);
-}
-
-.section-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(28px, 3.5vw, 48px);
-  font-weight: 300;
-  line-height: 1.1;
-}
-.section-title em { font-style: italic; color: var(--accent); }
-
-/* Body text */
-.body-text {
-  font-size: 16px;
-  color: var(--warm-gray);
-  line-height: 1.85;
-  max-width: 680px;
-}
-.body-text p { margin-bottom: 18px; }
-.body-text p:last-child { margin-bottom: 0; }
-.body-text strong { color: var(--ink); font-weight: 500; }
-
-/* Two columns */
-.two-col {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 56px;
-  align-items: start;
-}
-.two-col.wider-text { grid-template-columns: 1.3fr 0.7fr; }
-.two-col.wider-img  { grid-template-columns: 0.7fr 1.3fr; }
-
-/* Images */
-.case-img {
-  width: 100%;
-  border-radius: 8px;
-  display: block;
-  box-shadow: 0 8px 32px rgba(26,23,20,0.09);
-}
-
-.img-caption {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--warm-gray);
-  margin-top: 10px;
-  opacity: 0.65;
-}
-
-/* Decision cards */
-.decision-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-top: 48px;
-}
-
-.decision-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 24px 24px 28px;
-}
-
-.dc-num {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  color: var(--accent);
-  letter-spacing: 1.5px;
-  margin-bottom: 10px;
-  display: block;
-}
-
-.decision-card h4 {
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 1.35;
-  margin-bottom: 10px;
-}
-
-.decision-card p {
-  font-size: 13px;
-  color: var(--warm-gray);
-  line-height: 1.65;
-}
-
-/* User block */
-.user-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 32px 36px;
-}
-
-.user-card-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 10px;
-}
-
-.user-card h3 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 26px;
-  font-weight: 400;
-  margin-bottom: 12px;
-}
-
-.user-card p {
-  font-size: 14px;
-  color: var(--warm-gray);
-  line-height: 1.65;
-}
-
-.user-needs {
-  list-style: none;
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-}
-
-.user-needs li {
-  font-size: 13px;
-  color: var(--warm-gray);
-  padding-left: 16px;
-  position: relative;
-  line-height: 1.5;
-}
-
-.user-needs li::before {
-  content: '→';
-  position: absolute;
-  left: 0;
-  color: var(--accent);
-  font-size: 11px;
-  top: 2px;
-}
-
-/* Image grid 2-up */
-.img-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-top: 40px;
-}
-
-/* Reflection */
-.reflection {
-  background: var(--ink);
-  color: var(--cream);
-  border-radius: 12px;
-  padding: 40px 48px;
-  max-width: 760px;
-}
-
-.reflection p {
-  font-size: 15.5px;
-  line-height: 1.85;
-  color: rgba(245,240,232,0.72);
-  margin-bottom: 18px;
-}
-
-.reflection p:last-child { margin-bottom: 0; }
-.reflection strong { color: var(--cream); font-weight: 500; }
-
-/* Result pills */
-.result-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 32px;
-}
-
-.pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  padding: 9px 18px;
-  font-size: 13px;
-  font-weight: 400;
-  color: var(--ink);
-}
-
-.pill-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  flex-shrink: 0;
-}
-
-/* Bottom nav */
-.bottom-nav {
-  background: var(--ink);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-.bn-item {
-  padding: 48px 60px;
-  text-decoration: none;
-  color: var(--cream);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  transition: background 0.2s;
-  border: none;
-}
-
-.bn-item:hover { background: rgba(255,255,255,0.05); }
-.bn-item + .bn-item { border-left: 1px solid rgba(255,255,255,0.08); text-align: right; }
-
-.bn-dir {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: rgba(245,240,232,0.38);
-}
-
-.bn-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 28px;
-  font-weight: 300;
-}
-
-footer {
-  background: var(--ink);
-  text-align: center;
-  padding: 24px 48px;
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  color: rgba(245,240,232,0.3);
-  border-top: 1px solid rgba(255,255,255,0.06);
-}
-
-footer a { color: rgba(245,240,232,0.45); text-decoration: none; }
-footer a:hover { color: var(--accent-light); }
-
-/* Reveal */
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.65s ease, transform 0.65s ease;
-}
-.reveal.visible { opacity: 1; transform: translateY(0); }
-
-@media (max-width: 900px) {
-  nav { padding: 18px 24px; }
-  .case-hero { grid-template-columns: 1fr; padding: 110px 24px 48px; gap: 40px; }
-  .cover-strip { padding: 0 24px; }
-  .case-section { padding: 56px 24px; }
-  .two-col, .two-col.wider-text, .two-col.wider-img { grid-template-columns: 1fr; gap: 28px; }
-  .decision-grid { grid-template-columns: 1fr; }
-  .img-row { grid-template-columns: 1fr; }
-  .bottom-nav { grid-template-columns: 1fr; }
-  .bn-item + .bn-item { border-left: none; border-top: 1px solid rgba(255,255,255,0.08); text-align: left; }
-  .reflection { padding: 28px 24px; }
-}
+/* Page-specific styles — shared styles in styles.css + typography.css */
 </style>
 </head>
 <body>
@@ -475,12 +16,15 @@ footer a:hover { color: var(--accent-light); }
 <div class="cursor-ring" id="cursorRing"></div>
 
 <nav>
-  <a href="index.html" class="nav-logo">Mary Timofeeva</a>
-  <a href="index.html#work" class="nav-back">← All work</a>
+  <div class="container">
+    <a href="index.html" class="nav-logo">Mary Timofeeva</a>
+    <a href="index.html#work" class="nav-back">← All work</a>
+  </div>
 </nav>
 
 <!-- ─── HERO ─────────────────────────────────────────────── -->
 <div class="case-hero">
+  <div class="container">
   <div>
     <div class="case-eyebrow">Case Study · Mobile · EdTech · 2025</div>
     <h1>Paywall for<br>children's <em>educational</em><br>mobile games</h1>
@@ -502,29 +46,26 @@ footer a:hover { color: var(--accent-light); }
       <span class="meta-label">Deliverables</span>
       <span class="meta-value">UI design · Interactive prototype · User flow</span>
     </div>
-    <div class="meta-row">
-      <span class="meta-label">View on Behance</span>
-      <span class="meta-value">
-        <a href="https://www.behance.net/gallery/243263725/Paywall-for-mobile-app" target="_blank">UI Design ↗</a>
-        &nbsp;·&nbsp;
-        <a href="https://www.behance.net/gallery/243292139/Paywall-Interactive-prototype" target="_blank">Prototype ↗</a>
-      </span>
-    </div>
   </div>
+  </div><!-- /.container -->
 </div>
 
 <!-- Cover image -->
 <div class="cover-strip">
-  <img src="assets/paywall-1.png" alt="Paywall for children's educational mobile games">
+  <div class="container">
+    <img src="assets/paywall-1.png" alt="Paywall for children's educational mobile games">
+  </div>
 </div>
 
 <!-- ─── 01 CONTEXT ───────────────────────────────────────── -->
 <div class="case-section reveal">
+  <div class="container">
   <div class="section-label">
     <span class="section-num">01</span>
     <h2 class="section-title">Context</h2>
-  </div>
-  <div class="two-col wider-text">
+  
+</div>
+  <div class="two-col wider-img">
     <div class="body-text">
       <p>
         The client is a mobile gaming studio behind a catalog of <strong>20+ educational apps for children aged 3–8</strong> — covering reading, math, music, and creative play. All apps are designed for screen time parents feel good about.
@@ -543,15 +84,18 @@ footer a:hover { color: var(--accent-light); }
       <p class="img-caption">Goals defined at the start</p>
     </div>
   </div>
+  </div><!-- /.container -->
 </div>
 
 <!-- ─── 02 PROBLEM ───────────────────────────────────────── -->
 <div class="case-section alt reveal">
+  <div class="container">
   <div class="section-label">
     <span class="section-num">02</span>
     <h2 class="section-title">The <em>problem</em></h2>
-  </div>
-  <div class="body-text">
+  
+</div>
+  <div class="body-text" style="max-width: 100%;">
     <p>
       A paywall for a children's app has a core tension: <strong>the decision-maker is not the user.</strong>
       The child plays; the parent pays. Parents are interrupted mid-session, often skeptical,
@@ -568,14 +112,17 @@ footer a:hover { color: var(--accent-light); }
       Design and compliance had to be solved together.
     </p>
   </div>
+  </div><!-- /.container -->
 </div>
 
 <!-- ─── 03 USER ───────────────────────────────────────────── -->
 <div class="case-section reveal">
+  <div class="container">
   <div class="section-label">
     <span class="section-num">03</span>
     <h2 class="section-title">The <em>user</em></h2>
-  </div>
+  
+</div>
   <div class="two-col">
     <div class="user-card">
       <div class="user-card-label">Primary persona</div>
@@ -606,15 +153,18 @@ footer a:hover { color: var(--accent-light); }
       </p>
     </div>
   </div>
+  </div><!-- /.container -->
 </div>
 
 <!-- ─── 04 PROCESS ───────────────────────────────────────── -->
 <div class="case-section alt reveal">
+  <div class="container">
   <div class="section-label">
     <span class="section-num">04</span>
     <h2 class="section-title">Process</h2>
-  </div>
-  <div class="body-text">
+  
+</div>
+  <div class="body-text" style="max-width:100%;">
     <p>
       I began by mapping the user flow — every path from seeing the paywall
       to completing or declining a purchase. The "No" path needed design attention too:
@@ -644,14 +194,17 @@ footer a:hover { color: var(--accent-light); }
       <p>Features, pricing, CTA, cancellation notice, and legal links all fit in a single viewport. This satisfies both UX goals and compliance requirements simultaneously.</p>
     </div>
   </div>
+  </div><!-- /.container -->
 </div>
 
 <!-- ─── 05 FINAL SOLUTION ─────────────────────────────────── -->
 <div class="case-section reveal">
+  <div class="container">
   <div class="section-label">
     <span class="section-num">05</span>
     <h2 class="section-title">Final <em>solution</em></h2>
-  </div>
+  
+</div>
 
   <div class="two-col wider-img" style="margin-bottom: 40px;">
     <div class="body-text">
@@ -697,9 +250,9 @@ footer a:hover { color: var(--accent-light); }
   <div style="margin-top: 64px;">
     <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:24px;">
       <span style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--accent);">Prototype</span>
-      <h3 style="font-family:'Cormorant Garamond',serif; font-size:clamp(22px,2.5vw,32px); font-weight:300;">Interactive <em style="font-style:italic; color:var(--accent);">walkthrough</em></h3>
+      <h3 style="font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:300;">Interactive <em style="font-style:italic; color:var(--accent);">walkthrough</em></h3>
     </div>
-    <p style="font-size:15px; color:var(--warm-gray); max-width:640px; line-height:1.8; margin-bottom:28px;">
+    <p style="font-size:18px; color:var(--warm-gray); max-width:100%; line-height:1.8; margin-bottom:28px;">
       The prototype demonstrates the full purchase flow: the game carousel opens immediately,
       the parent selects a plan and taps <em>Unlock all 20+ apps</em>, which triggers the native
       in-app purchase sheet with Face ID / Touch ID. Legal documents open as overlay screens
@@ -717,15 +270,18 @@ footer a:hover { color: var(--accent-light); }
     </div>
     <p class="img-caption" style="margin-top:12px;">Interactive prototype walkthrough — Figma, 5 flow steps</p>
   </div>
+  </div><!-- /.container -->
 </div>
 
 <!-- ─── 06 REFLECTION ────────────────────────────────────── -->
 <div class="case-section alt reveal">
+  <div class="container">
   <div class="section-label">
     <span class="section-num">06</span>
     <h2 class="section-title">What I'd do <em>differently</em></h2>
-  </div>
-  <div class="reflection">
+  
+</div>
+  <div class="reflection" style="max-width:100%; font-size:18px;">
     <p>
       The biggest gap I'd close next time is <strong>the absence of real user testing</strong>.
       All decisions — the carousel lead, the pre-selected annual plan,
@@ -747,15 +303,17 @@ footer a:hover { color: var(--accent-light); }
       would reinforce the quality signal the rest of the design works hard to establish.
     </p>
   </div>
+  </div><!-- /.container -->
 </div>
 
 <!-- ─── 07 RESULT ─────────────────────────────────────────── -->
 <div class="case-section reveal">
+  <div class="container">
   <div class="section-label">
     <span class="section-num">07</span>
     <h2 class="section-title">Result</h2>
   </div>
-  <div class="body-text">
+  <div class="body-text" style="max-width:100%;">
     <p>
       The project was delivered as a <strong>complete UI design</strong> and an
       <strong>interactive Figma prototype</strong> demonstrating both subscription states
@@ -774,10 +332,12 @@ footer a:hover { color: var(--accent-light); }
     <span class="pill"><span class="pill-dot"></span> Approved without structural revisions</span>
     <span class="pill"><span class="pill-dot"></span> Legal compliance built into layout</span>
   </div>
+  </div><!-- /.container -->
 </div>
 
 <!-- Bottom nav -->
 <div class="bottom-nav">
+  <div class="container">
   <a href="index.html#work" class="bn-item">
     <span class="bn-dir">← Back</span>
     <span class="bn-title">All Case Studies</span>
@@ -786,6 +346,7 @@ footer a:hover { color: var(--accent-light); }
     <span class="bn-dir">Next →</span>
     <span class="bn-title">Kids' Podcast App</span>
   </a>
+  </div>
 </div>
 
 <footer>

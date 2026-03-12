@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>vYrda — UX/UI Device Displays · Mary Timofeeva</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="typography.css">
+<style>
+/* ── Chapter 02 — page-specific ───────────────────────────── */
+
+.pull-quote {
+  border-left: 3px solid var(--accent);
+  padding: 20px 28px;
+  margin: 40px 0;
+  background: rgba(196,98,45,0.04);
+  border-radius: 0 8px 8px 0;
+}
+.pull-quote p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 300; line-height: 1.55;
+  color: var(--ink); font-style: italic;
+}
+
+/* Constraint cards */
+.constraints-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 2px; margin-top: 40px;
+}
+.constraint-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 32px 28px;
+}
+.constraint-num {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--accent); display: block; margin-bottom: 16px;
+}
+.constraint-card h4 { margin-bottom: 10px; }
+.constraint-card p  { color: var(--warm-gray); font-size: 14px; line-height: 1.65; }
+
+/* Display spec cards */
+.display-spec-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 2px; margin-top: 40px;
+}
+.display-spec {
+  background: var(--ink); border-radius: 10px;
+  padding: 36px 32px; color: var(--cream);
+}
+.display-spec-num {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: rgba(245,240,232,0.35); margin-bottom: 20px; display: block;
+}
+.display-spec h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px; font-weight: 300; color: var(--cream);
+  line-height: 1.1; margin-bottom: 6px;
+}
+.display-spec h3 em { font-style: italic; color: var(--accent-light); }
+.display-spec-px {
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  letter-spacing: 1px; color: rgba(245,240,232,0.4);
+  margin-bottom: 24px; display: block;
+}
+.display-spec-items {
+  display: flex; flex-direction: column; gap: 10px;
+}
+.display-spec-item {
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.display-spec-item-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent-light); flex-shrink: 0; margin-top: 6px;
+}
+.display-spec-item span {
+  font-size: 14px; line-height: 1.6;
+  color: rgba(245,240,232,0.6);
+}
+
+/* Flow container */
+.flow-container {
+  background: var(--surface); border-radius: 12px;
+  padding: 40px 32px; margin-top: 40px; overflow: hidden;
+}
+
+/* Font showcase */
+.font-showcase {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 2px; margin-top: 40px;
+}
+.font-card {
+  padding: 40px 36px; border-radius: 10px;
+}
+.font-card.dark { background: var(--ink); }
+.font-card.light { background: var(--card); border: 1px solid var(--border); }
+.font-role {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; display: block;
+}
+.font-card.dark .font-role  { color: rgba(245,240,232,0.35); }
+.font-card.light .font-role { color: var(--warm-gray); }
+.font-display-num {
+  font-family: 'Courier New', monospace; font-size: 52px;
+  font-weight: bold; line-height: 1; letter-spacing: -1px;
+}
+.font-card.dark .font-display-num  { color: var(--cream); }
+.font-card.light .font-display-num { color: var(--ink); }
+.font-display-label {
+  font-family: 'Outfit', sans-serif; font-size: 28px;
+  letter-spacing: 2px; line-height: 1.2; margin-top: 12px;
+}
+.font-card.dark .font-display-label  { color: rgba(245,240,232,0.7); }
+.font-card.light .font-display-label { color: var(--ink); }
+.font-name {
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  letter-spacing: 1px; margin-top: 20px; display: block;
+}
+.font-card.dark .font-name  { color: var(--accent-light); }
+.font-card.light .font-name { color: var(--accent); }
+.font-desc {
+  font-size: 14px; line-height: 1.65; margin-top: 8px;
+}
+.font-card.dark .font-desc  { color: rgba(245,240,232,0.45); }
+.font-card.light .font-desc { color: var(--warm-gray); }
+
+/* Decision grid */
+.decision-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 40px; }
+.decision-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 32px 28px; }
+.dc-num { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 16px; }
+.decision-card h4 { margin-bottom: 10px; }
+.decision-card p  { color: var(--warm-gray); font-size: 14px; line-height: 1.65; }
+
+/* Principles flow */
+.principles-flow {
+  max-width: 760px; margin-top: 40px;
+  display: flex; flex-direction: column; gap: 0;
+}
+.principle-row {
+  display: grid; grid-template-columns: 200px 1fr;
+  border-bottom: 1px solid var(--border);
+}
+.principle-row:first-child { border-top: 1px solid var(--border); }
+.principle-label {
+  padding: 24px 28px 24px 0;
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 6px;
+}
+.principle-label-text {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--accent);
+}
+.principle-body { padding: 24px 0 24px 28px; }
+.principle-body p { color: var(--warm-gray); font-size: 15px; line-height: 1.65; }
+
+/* Reflection */
+.reflection-block { background: var(--ink); color: var(--cream); border-radius: 12px; padding: 48px; margin-top: 40px; }
+.reflection-block p { font-size: 17px; line-height: 1.85; color: rgba(245,240,232,0.75); max-width: 720px; }
+.reflection-block strong { color: var(--accent-light); }
+
+/* Article links */
+.article-links { margin-top: 40px; }
+.article-link-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 24px 0; border-bottom: 1px solid var(--border);
+  text-decoration: none; color: inherit; gap: 24px; transition: padding-left 0.3s;
+}
+.article-link-item:hover { padding-left: 12px; }
+.article-link-item:hover .article-arrow { color: var(--accent); transform: translateX(4px); }
+.article-left { display: flex; align-items: center; gap: 20px; }
+.article-source { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); width: 80px; flex-shrink: 0; }
+.article-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 300; }
+.article-arrow { color: var(--warm-gray); transition: color 0.2s, transform 0.2s; }
+
+@media (max-width: 1000px) {
+  .constraints-grid  { grid-template-columns: 1fr; }
+  .display-spec-grid { grid-template-columns: 1fr; }
+  .font-showcase     { grid-template-columns: 1fr; }
+  .decision-grid     { grid-template-columns: 1fr; }
+  .principle-row     { grid-template-columns: 1fr; }
+  .principle-label   { border-right: none; border-bottom: 1px solid var(--border); padding: 20px 0 12px; }
+  .principle-body    { padding: 12px 0 20px; }
+}
+@media (max-width: 600px) {
+  .reflection-block { padding: 32px 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <div class="container">
+    <a href="index.html" class="nav-logo">Mary Timofeeva</a>
+    <a href="case-air-quality-sensor-index.html" class="nav-back">← vYrda overview</a>
+  </div>
+</nav>
+
+<!-- ─── HERO ──────────────────────────────────────────────────── -->
+<div class="case-hero">
+  <div class="container">
+  <div>
+    <div class="case-eyebrow">Chapter 02 · UX/UI · Embedded Displays · Hardware</div>
+    <h1>UX/UI —<br><em>Device</em><br>Displays</h1>
+    <p class="case-hero-desc">
+      Designing two screens for a physical device: a 1.9″ vertical and a 1.8″ round display.
+      Eight sensors, two tiny screens, one glance to understand everything.
+    </p>
+  </div>
+  <div class="case-meta-grid">
+    <div class="meta-row">
+      <span class="meta-label">Chapter</span>
+      <span class="meta-value">02 of 03 — vYrda Ecosystem</span>
+    </div>
+    <div class="meta-row">
+      <span class="meta-label">My Role</span>
+      <span class="meta-value">CPO · Lead Designer</span>
+    </div>
+    <div class="meta-row">
+      <span class="meta-label">Scope</span>
+      <span class="meta-value">Embedded UI · Typography · Information design</span>
+    </div>
+    <div class="meta-row">
+      <span class="meta-label">Published</span>
+      <span class="meta-value">
+        <a href="https://medium.com/design-bootcamp/ux-ui-and-some-industrial-design-for-an-air-quality-sensor-5907c88cd090" target="_blank">Medium Design Bootcamp ↗</a>
+      </span>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- Cover -->
+<div class="cover-strip">
+  <div class="container">
+    <img src="assets/aq-1.jpg" alt="vYrda — Designing screens for Air Quality Sensor">
+  </div>
+</div>
+
+<!-- ─── 01 · TASK ─────────────────────────────────────────────── -->
+<div class="case-section reveal">
+  <div class="container">
+  <div class="section-label">
+    <span class="section-num">01</span>
+    <h2 class="section-title">The <em>task</em></h2>
+  </div>
+
+  <div class="two-col wider-img" style="display:grid; gap:48px; align-items:start;">
+    <div class="body-text" style="max-width:100%;">
+      <p>
+        The device has two embedded IPS displays — a 1.9″ vertical and a 1.8″ round.
+        The task: design both screens to display air quality data
+        (CO₂, PM2.5, PM10, TVOC, atmospheric pressure, humidity, temperature, lux)
+        so users can read the current state <strong>at a glance, without opening the app</strong>.
+      </p>
+      <p>
+        The problem is constraint: a lot of data, very small screens.
+        The layout needs to be intentional — the user must instantly know
+        where each number lives and what it means.
+      </p>
+    </div>
+    <div>
+      <img src="assets/aq-2.png" alt="Task — two screen sizes and specs" class="case-img">
+      <p class="img-caption" style="margin-top:10px; color:var(--warm-gray);">Two screens: 1.9″ vertical (172×320 px) and 1.8″ round (360×360 px)</p>
+    </div>
+  </div>
+
+  <div style="border-left:3px solid var(--accent); padding:24px 32px; margin-top:40px; background:rgba(196,98,45,0.04); border-radius:0 8px 8px 0;" class="reveal">
+    <p style="font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:300; line-height:1.55; color:var(--ink); font-style:italic; margin:0;">"These screens should help users quickly understand the current metrics without opening the app. The layout needs to be thoughtful so the user can clearly see where and what data is located."</p>
+  </div>
+
+  <!-- Display spec cards -->
+  <div class="display-spec-grid reveal">
+    <div class="display-spec">
+      <span class="display-spec-num">Display 01 · Vertical</span>
+      <h3>1.9<em>″</em></h3>
+      <span class="display-spec-px">172 × 320 px · IPS</span>
+      <div class="display-spec-items">
+        <div class="display-spec-item">
+          <div class="display-spec-item-dot"></div>
+          <span>CO₂ · TVOC · PM — three zones, always visible</span>
+        </div>
+        <div class="display-spec-item">
+          <div class="display-spec-item-dot"></div>
+          <span>Zones physically mirror the LED indicators on the enclosure</span>
+        </div>
+        <div class="display-spec-item">
+          <div class="display-spec-item-dot"></div>
+          <span>Zone background shifts red when sensor enters danger state</span>
+        </div>
+        <div class="display-spec-item">
+          <div class="display-spec-item-dot"></div>
+          <span>Brightness auto-adjusts via LUX sensor</span>
+        </div>
+      </div>
+    </div>
+    <div class="display-spec">
+      <span class="display-spec-num">Display 02 · Round</span>
+      <h3>1.8<em>″</em></h3>
+      <span class="display-spec-px">360 × 360 px · IPS</span>
+      <div class="display-spec-items">
+        <div class="display-spec-item">
+          <div class="display-spec-item-dot"></div>
+          <span>Time (large, centre) · seconds in smaller type</span>
+        </div>
+        <div class="display-spec-item">
+          <div class="display-spec-item-dot"></div>
+          <span>Lux · atmospheric pressure · temperature · humidity</span>
+        </div>
+        <div class="display-spec-item">
+          <div class="display-spec-item-dot"></div>
+          <span>Date · day of week · Wi-Fi · MQTT status</span>
+        </div>
+        <div class="display-spec-item">
+          <div class="display-spec-item-dot"></div>
+          <span>Sound and vibration on/off indicators</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- ─── 02 · CONSTRAINTS ──────────────────────────────────────── -->
+<div class="case-section alt reveal">
+  <div class="container">
+  <div class="section-label">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Design <em>constraints</em></h2>
+  </div>
+  <p style="font-size:17px; line-height:1.75; color:var(--warm-gray); max-width:100%; margin-top:8px;">
+    Embedded hardware UI is not like mobile design. The constraints are physical and non-negotiable.
+  </p>
+  <div class="constraints-grid reveal">
+    <div class="constraint-card">
+      <span class="constraint-num">01 · Hardware</span>
+      <h4>Fixed pixel grid</h4>
+      <p>172×320 px and 360×360 px — every layout decision is absolute. No fluid layouts, no breakpoints. Pixel-perfect or broken.</p>
+    </div>
+    <div class="constraint-card">
+      <span class="constraint-num">02 · Data density</span>
+      <h4>8 sensors · 2 tiny screens</h4>
+      <p>8 sensor readings need to fit across two displays without crowding. Priority determines placement: the three most critical indicators get the vertical screen; everything else goes on the round.</p>
+    </div>
+    <div class="constraint-card">
+      <span class="constraint-num">03 · Round format</span>
+      <h4>Circle is not a rectangle</h4>
+      <p>The 360×360 px round display clips corners. Content placed in the corners is lost. All secondary data had to be arranged in a circular-aware layout, centred and layered.</p>
+    </div>
+    <div class="constraint-card">
+      <span class="constraint-num">04 · Context</span>
+      <h4>No interaction — ambient display</h4>
+      <p>Users don't tap or swipe the device screen. It's always-on, always-readable. The display is ambient information, not an interface — closer to a clock face than a phone screen.</p>
+    </div>
+    <div class="constraint-card">
+      <span class="constraint-num">05 · Alert state</span>
+      <h4>Status must change visually</h4>
+      <p>When CO₂ or PM enters the danger zone, the display must communicate urgency without sound by default. The background colour of the affected zone shifts — turning the ambient screen into an active alert.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- ─── 03 · SOLUTION ─────────────────────────────────────────── -->
+<div class="case-section reveal">
+  <div class="container">
+  <div class="section-label">
+    <span class="section-num">03</span>
+    <h2 class="section-title">The <em>solution</em></h2>
+  </div>
+
+  <div class="two-col wider-img" style="display:grid; gap:48px; align-items:start;">
+    <div class="body-text" style="max-width:100%;">
+      <p>
+        The vertical screen is divided into <strong>three equal horizontal zones</strong>:
+        CO₂ on top, TVOC in the middle, PM at the bottom.
+        These zones physically mirror the LED indicators on the device enclosure —
+        so the display clarifies what each disc means.
+        When a reading reaches danger level, the corresponding zone background turns red.
+      </p>
+      <p>
+        The round screen uses the circular format intentionally —
+        like a clock face, made data-rich. Time occupies the centre at large size;
+        secondary readings (lux, pressure, temperature, humidity) form a grid below;
+        status icons (Wi-Fi, MQTT, sound, vibration) sit at the top arc.
+        Date and day of week anchor the bottom.
+      </p>
+    </div>
+    <div>
+      <img src="assets/aq-3.png" alt="Solution — layout concept for both screens" class="case-img">
+      <p class="img-caption" style="margin-top:10px; color:var(--warm-gray);">Layout concept: 3-zone vertical screen + circular ambient display</p>
+    </div>
+  </div>
+
+  <!-- Info hierarchy SVG -->
+  <div class="flow-container reveal" style="margin-top:48px;">
+    <svg viewBox="0 0 860 220" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-height:200px;">
+      <defs>
+        <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#C4622D"/>
+        </marker>
+      </defs>
+      <!-- Vertical screen zones -->
+      <text x="20" y="18" font-family="DM Mono,monospace" font-size="9" fill="#8C8479" letter-spacing="2">VERTICAL 1.9&quot;</text>
+      <text x="20" y="34" font-family="DM Mono,monospace" font-size="9" fill="#8C8479" letter-spacing="1">PRIORITY ZONES</text>
+      <rect x="20"  y="50" width="140" height="44" rx="4" fill="rgba(248,113,113,0.12)" stroke="rgba(248,113,113,0.3)" stroke-width="1"/>
+      <text x="90"  y="77" text-anchor="middle" font-family="DM Mono,monospace" font-size="11" fill="#f87171" letter-spacing="1">CO₂</text>
+      <rect x="20"  y="98" width="140" height="44" rx="4" fill="rgba(251,191,36,0.10)" stroke="rgba(251,191,36,0.25)" stroke-width="1"/>
+      <text x="90"  y="125" text-anchor="middle" font-family="DM Mono,monospace" font-size="11" fill="#fbbf24" letter-spacing="1">TVOC</text>
+      <rect x="20"  y="146" width="140" height="44" rx="4" fill="rgba(167,139,250,0.10)" stroke="rgba(167,139,250,0.25)" stroke-width="1"/>
+      <text x="90"  y="173" text-anchor="middle" font-family="DM Mono,monospace" font-size="11" fill="#a78bfa" letter-spacing="1">PM</text>
+
+      <!-- Divider -->
+      <line x1="200" y1="30" x2="200" y2="185" stroke="var(--border)" stroke-width="1"/>
+
+      <!-- Round screen layout -->
+      <text x="230" y="20" font-family="DM Mono,monospace" font-size="9" fill="#8C8479" letter-spacing="2">ROUND 1.8&quot;</text>
+      <text x="230" y="34" font-family="DM Mono,monospace" font-size="9" fill="#8C8479" letter-spacing="1">AMBIENT LAYER</text>
+
+      <!-- Status icons row -->
+      <rect x="230" y="50" width="580" height="28" rx="4" fill="rgba(26,23,20,0.04)" stroke="var(--border)" stroke-width="1"/>
+      <text x="520" y="69" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" fill="#8C8479">Wi-Fi · MQTT · Sound · Vibration status icons</text>
+
+      <!-- Time centre -->
+      <rect x="330" y="85" width="380" height="50" rx="4" fill="rgba(196,98,45,0.07)" stroke="rgba(196,98,45,0.25)" stroke-width="1.5"/>
+      <text x="520" y="116" text-anchor="middle" font-family="Courier New,monospace" font-size="22" font-weight="bold" fill="#1A1714">21:40</text>
+
+      <!-- Secondary grid -->
+      <rect x="230" y="142" width="130" height="34" rx="4" fill="rgba(26,23,20,0.03)" stroke="var(--border)" stroke-width="1"/>
+      <text x="295" y="164" text-anchor="middle" font-family="Outfit,sans-serif" font-size="10" fill="#8C8479">Lux · Pressure</text>
+      <rect x="366" y="142" width="130" height="34" rx="4" fill="rgba(26,23,20,0.03)" stroke="var(--border)" stroke-width="1"/>
+      <text x="431" y="164" text-anchor="middle" font-family="Outfit,sans-serif" font-size="10" fill="#8C8479">Temp · Humidity</text>
+      <rect x="502" y="142" width="130" height="34" rx="4" fill="rgba(26,23,20,0.03)" stroke="var(--border)" stroke-width="1"/>
+      <text x="567" y="164" text-anchor="middle" font-family="Outfit,sans-serif" font-size="10" fill="#8C8479">dd.mm.yyyy</text>
+      <rect x="638" y="142" width="172" height="34" rx="4" fill="rgba(26,23,20,0.03)" stroke="var(--border)" stroke-width="1"/>
+      <text x="724" y="164" text-anchor="middle" font-family="Outfit,sans-serif" font-size="10" fill="#8C8479">Weekday</text>
+    </svg>
+  </div>
+  </div>
+</div>
+
+<!-- ─── 04 · TYPOGRAPHY ───────────────────────────────────────── -->
+<div class="case-section alt reveal">
+  <div class="container">
+  <div class="section-label">
+    <span class="section-num">04</span>
+    <h2 class="section-title"><em>Typography</em></h2>
+  </div>
+
+  <div class="body-text" style="max-width:100%;">
+    <p>
+      Embedded display typography has different rules from screen design.
+      The font must be readable at arm's length on a 1.9″ screen,
+      recognisable instantly for both numbers and labels,
+      and carry a visual language appropriate for a hi-tech sensor device —
+      without looking like a cheap clock radio.
+    </p>
+  </div>
+
+  <div class="font-showcase reveal">
+    <div class="font-card dark">
+      <span class="font-role">Primary — numbers &amp; clock</span>
+      <div class="font-display-num">21:40</div>
+      <div class="font-display-num" style="font-size:32px; margin-top:8px;">459 ppm</div>
+      <span class="font-name">DS-Digital Bold</span>
+      <p class="font-desc">Chosen for legibility at distance and a nod to the electronic clocks of the second half of the 20th century. The segment-display aesthetic creates instant familiarity — users know how to read it.</p>
+    </div>
+    <div class="font-card light">
+      <span class="font-role">Secondary — labels &amp; dates</span>
+      <div class="font-display-label">CO₂ · TVOC · PM</div>
+      <div class="font-display-label" style="font-size:20px; margin-top:8px;">26.07.2025 WED</div>
+      <span class="font-name">Iceland Regular</span>
+      <p class="font-desc">Square lowercase letters complement DS-Digital without competing. The neat, geometric form reads clearly at small sizes — ideal for sensor labels, units, and date strings on a constrained display.</p>
+    </div>
+  </div>
+
+  <!-- Typography SVG from original -->
+  <div class="flow-container reveal" style="margin-top:24px;">
+    <svg viewBox="0 0 760 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;">
+      <rect x="0" y="0" width="365" height="130" rx="8" fill="#EDE8DF" stroke="#C4C0B8" stroke-width="1"/>
+      <text x="20" y="24" font-family="DM Mono,monospace" font-size="9" fill="#8C8479" letter-spacing="2">PRIMARY — NUMBERS &amp; CLOCK</text>
+      <text x="20" y="72" font-family="Courier New,monospace" font-size="40" fill="#1A1714" font-weight="bold">21:40</text>
+      <text x="20" y="98" font-family="Outfit,sans-serif" font-size="13" fill="#1A1714">DS-Digital Bold</text>
+      <text x="20" y="116" font-family="Outfit,sans-serif" font-size="11" fill="#8C8479">Legible at distance · references 1970s instruments</text>
+      <rect x="380" y="0" width="380" height="130" rx="8" fill="#FDFAF5" stroke="#C4C0B8" stroke-width="1"/>
+      <text x="400" y="24" font-family="DM Mono,monospace" font-size="9" fill="#8C8479" letter-spacing="2">SECONDARY — LABELS &amp; DATES</text>
+      <text x="400" y="72" font-family="Outfit,sans-serif" font-size="28" fill="#1A1714" letter-spacing="1">CO₂ · TVOC · PM</text>
+      <text x="400" y="98" font-family="Outfit,sans-serif" font-size="13" fill="#1A1714">Iceland Regular</text>
+      <text x="400" y="116" font-family="Outfit,sans-serif" font-size="11" fill="#8C8479">Square lowercase · complements DS-Digital without competing</text>
+    </svg>
+  </div>
+  <p class="img-caption reveal" style="margin-top:12px; color:var(--warm-gray);">Two fonts, two roles — DS-Digital Bold for values and clock, Iceland Regular for labels and dates</p>
+
+  <!-- Typography in use -->
+  <div style="margin-top:32px;" class="reveal">
+    <img src="assets/aq-4.png" alt="Typography in use on both screens" class="case-img">
+    <p class="img-caption" style="margin-top:10px; color:var(--warm-gray);">Both fonts in use across both screens — DS-Digital for values, Iceland for labels</p>
+  </div>
+  </div>
+</div>
+
+<!-- ─── 05 · VISUAL LANGUAGE ──────────────────────────────────── -->
+<div class="case-section reveal">
+  <div class="container">
+  <div class="section-label">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Visual <em>language</em></h2>
+  </div>
+
+  <div class="body-text" style="max-width:100%;">
+    <p>
+      The background uses a <strong>hi-tech theme</strong> — blue, red, and black with a
+      geometric glass-effect pattern. Data colours are white and pale turquoise
+      for normal state, shifting to red for danger alerts.
+    </p>
+    <p>
+      This is intentional: the device should feel like precision instrumentation,
+      not a consumer gadget. The visual language borrows from industrial monitoring
+      equipment and 1970s digital clocks — familiar enough to read instantly.
+    </p>
+  </div>
+
+  <div class="principles-flow" style="max-width:100%;">
+        <div class="principle-row">
+          <div class="principle-label">
+            <span class="principle-label-text">Background</span>
+          </div>
+          <div class="principle-body">
+            <p>Hi-tech geometric pattern, dark. Blue-black base with angular light refractions — creates depth without distracting from data.</p>
+          </div>
+        </div>
+        <div class="principle-row">
+          <div class="principle-label">
+            <span class="principle-label-text">Data colour</span>
+          </div>
+          <div class="principle-body">
+            <p>White and pale turquoise (#00E5FF range) for normal readings. High contrast against the dark background at any viewing angle.</p>
+          </div>
+        </div>
+        <div class="principle-row">
+          <div class="principle-label">
+            <span class="principle-label-text">Danger state</span>
+          </div>
+          <div class="principle-body">
+            <p>Affected zone background shifts to red. The danger value also renders in red. No sound required — the colour change is the alert.</p>
+          </div>
+        </div>
+        <div class="principle-row">
+          <div class="principle-label">
+            <span class="principle-label-text">Brightness</span>
+          </div>
+          <div class="principle-body">
+            <p>Adjusts automatically based on ambient lux sensor readings. Dim at night, bright in sunlight — always readable, never blinding.</p>
+          </div>
+        </div>
+  </div>
+
+  <!-- All states image -->
+  <div style="margin-top:40px;" class="reveal">
+    <img src="assets/aq-5.png" alt="All display states — normal and danger" class="case-img">
+    <p class="img-caption" style="margin-top:10px; color:var(--warm-gray);">All states: normal readings (left) and CO₂ 2502 ppm danger alert — red zone active (right)</p>
+  </div>
+  </div>
+</div>
+
+<!-- ─── 06 · DESIGN DECISIONS ─────────────────────────────────── -->
+<div class="case-section alt reveal">
+  <div class="container">
+  <div class="section-label">
+    <span class="section-num">06</span>
+    <h2 class="section-title">Design <em>decisions</em></h2>
+  </div>
+  <div class="decision-grid reveal">
+    <div class="decision-card">
+      <span class="dc-num">01 · Vertical screen</span>
+      <h4>Zones mirror the LED indicators</h4>
+      <p>The three zones on the vertical screen (CO₂ · TVOC · PM) physically align with the three LED indicators on the enclosure. The screen clarifies what each indicator means — they work as a system, not independently.</p>
+    </div>
+    <div class="decision-card">
+      <span class="dc-num">02 · Round screen</span>
+      <h4>Clock face as information architecture</h4>
+      <p>Time at the centre is universally understood. This anchors the round display as "ambient" rather than "critical". Secondary data radiates outward — familiar clock logic applied to environmental data.</p>
+    </div>
+    <div class="decision-card">
+      <span class="dc-num">03 · Danger state</span>
+      <h4>Colour replaces sound as primary alert</h4>
+      <p>When CO₂ crosses 2500 ppm, the affected zone background turns red — not a pop-up, not a tone. The change is visible from across the room and doesn't disturb everyone in a quiet home at night.</p>
+    </div>
+    <div class="decision-card">
+      <span class="dc-num">04 · Typography</span>
+      <h4>Two fonts, two roles, zero confusion</h4>
+      <p>DS-Digital Bold for all numbers and clock. Iceland Regular for all labels and dates. Once the user learns this pattern (immediately, instinctively), they never confuse a value for a label again.</p>
+    </div>
+    <div class="decision-card">
+      <span class="dc-num">05 · Background</span>
+      <h4>Hi-tech theme, not consumer gadget</h4>
+      <p>The geometric glass-effect background signals precision instrumentation. It differentiates the device from cheap consumer sensors and reinforces the brand's positioning — a tool, not a toy.</p>
+    </div>
+    <div class="decision-card">
+      <span class="dc-num">06 · Data priority</span>
+      <h4>Split by urgency, not by sensor type</h4>
+      <p>Critical data (what can hurt you) goes on the always-prominent vertical screen. Ambient data (context) goes on the round screen. This is a design decision about attention hierarchy, not screen real estate.</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- ─── 07 · RESULT ───────────────────────────────────────────── -->
+<div class="case-section reveal">
+  <div class="container">
+  <div class="section-label">
+    <span class="section-num">07</span>
+    <h2 class="section-title">Result &amp; <em>reflection</em></h2>
+  </div>
+
+  <div class="two-col wider-img" style="display:grid; gap:48px; align-items:start;">
+    <div>
+      <img src="assets/aq-1.jpg" alt="vYrda final result — both screens" class="case-img">
+      <p class="img-caption" style="margin-top:10px; color:var(--warm-gray);">Final result: both displays on device — green normal state</p>
+    </div>
+    <div class="body-text" style="max-width:100%;">
+      <p>
+        Both screen designs were validated on the physical POC device.
+        The vertical screen provides a clear display of the most important data (CO2, TVOC, PM). The mapping of zones and LED indicators was instantly understood by every test participant without any explanation.
+        The round screen functions as a genuine ambient display — users stop
+        consciously reading it and start simply knowing the time and state.
+      </p>
+      <p>
+        The article documenting this work was published in
+        <strong>Medium Design Bootcamp</strong> and received positive reception
+        from the design community.
+      </p>
+    </div>
+  </div>
+
+  <div class="reflection-block reveal">
+    <p>
+      <strong>Earlier user testing on the device displays</strong> would have been valuable.
+      The zone-to-disc mapping felt obvious in design — but "obvious in Figma"
+      and "obvious on a physical device at 2 metres" are different things.
+      Even three people testing the physical POC would have validated
+      or challenged the hierarchy before committing to the enclosure design.
+    </p>
+    <p style="margin-top:20px;">
+      <strong>The hi-tech background is a strong aesthetic choice</strong> — but it may
+      date the product faster than a cleaner approach. A future version should
+      explore whether a minimal, purely typographic display achieves the same
+      readability with longer-lasting visual appeal.
+    </p>
+  </div>
+
+  <div class="article-links reveal" style="margin-top:48px;">
+    <a href="https://medium.com/design-bootcamp/ux-ui-and-some-industrial-design-for-an-air-quality-sensor-5907c88cd090" class="article-link-item" target="_blank">
+      <div class="article-left">
+        <span class="article-source">Medium</span>
+        <span class="article-title">UX/UI and Some Industrial Design for an Air Quality Sensor</span>
+      </div>
+      <span class="article-arrow">→</span>
+    </a>
+    <a href="https://vyrda-aq.github.io" class="article-link-item" target="_blank">
+      <div class="article-left">
+        <span class="article-source">Landing</span>
+        <span class="article-title">vYrda — Product landing page</span>
+      </div>
+      <span class="article-arrow">→</span>
+    </a>
+  </div>
+  </div>
+</div>
+
+<!-- ─── NEXT CHAPTER TEASER ───────────────────────────────────── -->
+<div style="background:var(--ink); padding:80px 0;">
+  <div class="container">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center;">
+      <div>
+        <div style="font-family:'DM Mono',monospace; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:rgba(245,240,232,0.35); margin-bottom:16px;">Up next · Chapter 03</div>
+        <h2 style="font-family:'Cormorant Garamond',serif; font-size:clamp(36px,4.5vw,60px); font-weight:300; color:var(--cream); line-height:1.05;">Pre-Seed &amp; <em style="font-style:italic; color:var(--accent-light);">Pitch Preparation</em></h2>
+        <p style="font-size:17px; line-height:1.8; color:rgba(245,240,232,0.55); max-width:460px; margin-top:20px;">
+          The product is designed. Now: how do you take it to investors?
+          Ecosystem visualisation, business model design, competitive positioning,
+          and a 13-slide pitch deck — without turning a design portfolio into a spreadsheet.
+        </p>
+        <a href="case-air-quality-sensor-pre-seed.html" style="display:inline-flex; align-items:center; gap:12px; margin-top:36px; font-family:'DM Mono',monospace; font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--accent-light); text-decoration:none; border:1px solid rgba(232,149,106,0.3); padding:14px 28px; border-radius:4px;">
+          Read Chapter 03 <span style="font-size:16px;">→</span>
+        </a>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:2px;">
+        <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:8px; padding:24px 20px;">
+          <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:rgba(245,240,232,0.3); margin-bottom:10px;">Raising</div>
+          <div style="font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; color:var(--cream);">$---K</div>
+          <div style="font-size:13px; color:rgba(245,240,232,0.45); margin-top:8px; line-height:1.6;">Pre-seed SAFE · $2.5M cap</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:8px; padding:24px 20px;">
+          <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:rgba(245,240,232,0.3); margin-bottom:10px;">TAM</div>
+          <div style="font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; color:var(--cream);">$20B</div>
+          <div style="font-size:13px; color:rgba(245,240,232,0.45); margin-top:8px; line-height:1.6;">Smart Home + IAQ · CAGR 27%</div>
+        </div>
+        <div style="background:rgba(196,98,45,0.08); border:1px solid rgba(196,98,45,0.2); border-radius:8px; padding:24px 20px; grid-column:1/-1;">
+          <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:rgba(196,98,45,0.6); margin-bottom:10px;">What Chapter 03 covers</div>
+          <div style="font-size:14px; color:rgba(245,240,232,0.55); line-height:1.65;">Pitch deck design · Market visualisation · Business model · Competitive table · Ecosystem overview</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── BOTTOM NAV ───────────────────────────────────────────── -->
+<div class="bottom-nav">
+  <div class="container">
+  <a href="case-air-quality-sensor-concept.html" class="bn-item">
+    <span class="bn-dir">← Chapter 01</span>
+    <span class="bn-title">Concept &amp; Industrial Design</span>
+  </a>
+  <a href="case-air-quality-sensor-pre-seed.html" class="bn-item">
+    <span class="bn-dir">Chapter 03 →</span>
+    <span class="bn-title">Pre-Seed &amp; Pitch Preparation</span>
+  </a>
+  </div>
+</div>
+
+<footer>
+  <a href="index.html">Mary Timofeeva</a> &nbsp;·&nbsp;
+  <a href="/cdn-cgi/l/email-protection#35595c5750475c5458755258545c591b565a58"><span class="__cf_email__" data-cfemail="24484d4641564d4549644349454d480a474b49">[email&#160;protected]</span></a> &nbsp;·&nbsp;
+  <a href="https://dribbble.com/liberiam" target="_blank">Dribbble</a> &nbsp;·&nbsp;
+  <a href="https://www.linkedin.com/in/mary-timofeeva-184484382/" target="_blank">LinkedIn</a>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const cursor = document.getElementById('cursor');
+const ring   = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top  = my + 'px';
+});
+
+(function animateRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top  = ry + 'px';
+  requestAnimationFrame(animateRing);
+})();
+
+document.querySelectorAll('a').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(2.5)';
+    ring.style.opacity = '0.15';
+    ring.style.width = '50px'; ring.style.height = '50px';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+    ring.style.opacity = '0.5';
+    ring.style.width = '32px'; ring.style.height = '32px';
+  });
+});
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.07 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+</script>
+
+
+
+<!-- ─── Lightbox ─────────────────────────────────────────────── -->
+<div class="lb-overlay" id="lb">
+  <button class="lb-close" id="lb-close">ESC · Close</button>
+  <img id="lb-img" src="" alt="">
+  <div class="lb-caption" id="lb-caption"></div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var overlay = document.getElementById('lb');
+  var lbImg   = document.getElementById('lb-img');
+  var lbCap   = document.getElementById('lb-caption');
+  var lbClose = document.getElementById('lb-close');
+  if (!overlay) return;
+
+  function openLb(src, caption) {
+    lbImg.src = src;
+    lbCap.textContent = caption || '';
+    overlay.classList.add('lb-open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLb() {
+    overlay.classList.remove('lb-open');
+    document.body.style.overflow = '';
+    setTimeout(function() { lbImg.src = ''; }, 260);
+  }
+
+  document.querySelectorAll('.case-img').forEach(function(img) {
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', function() {
+      var next = img.nextElementSibling;
+      var cap = (next && next.classList.contains('img-caption')) ? next.textContent : '';
+      openLb(img.src, cap);
+    });
+  });
+
+  lbClose.addEventListener('click', closeLb);
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay || e.target === lbImg) closeLb();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLb();
+  });
+});
+</script>
+</body>
+</html>

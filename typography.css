@@ -1,0 +1,332 @@
+/* ============================================================
+   TYPOGRAPHY — shared across all pages
+   Mary Timofeeva Portfolio
+   ============================================================ */
+
+/* ── Fonts ─────────────────────────────────────────────────── */
+/* Loaded via Google Fonts in each page's <head> */
+
+/* ── Base body ─────────────────────────────────────────────── */
+body {
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Navigation ────────────────────────────────────────────── */
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.nav-links a,
+.nav-back {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.nav-status {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+}
+
+/* ── Section labels ─────────────────────────────────────────── */
+.section-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 300;
+  line-height: 1.1;
+}
+
+.section-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+/* ── Case hero (case study pages) ──────────────────────────── */
+.case-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.case-hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(40px, 5.5vw, 76px);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.5px;
+}
+
+.case-hero h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.case-hero-desc {
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+/* ── Meta info ──────────────────────────────────────────────── */
+.meta-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+
+.meta-value {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* ── Body text ──────────────────────────────────────────────── */
+.body-text {
+  font-size: 18px;
+  line-height: 1.85;
+}
+
+.body-text p { margin-bottom: 18px; }
+.body-text p:last-child { margin-bottom: 0; }
+.body-text strong { color: var(--ink); font-weight: 500; }
+
+/* ── Image captions ─────────────────────────────────────────── */
+.img-caption {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* ── Cards: decision, user, principle ──────────────────────── */
+.dc-num,
+.user-card-label,
+.constraint-title,
+.principle-label-text,
+.palette-swatch-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.decision-card h4,
+.constraint-head {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.decision-card p,
+.constraint-desc,
+.principle-body p,
+.user-card p,
+.user-needs li {
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.user-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 400;
+}
+
+/* ── Reflection block ───────────────────────────────────────── */
+.reflection p {
+  font-size: 18px;
+  line-height: 1.85;
+}
+
+/* ── Pills (result tags) ────────────────────────────────────── */
+.pill {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+}
+
+/* ── Bottom navigation ──────────────────────────────────────── */
+.bn-dir {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.bn-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 300;
+}
+
+/* ── Footer ─────────────────────────────────────────────────── */
+footer {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+}
+
+/* ── Stats bar (index only) ─────────────────────────────────── */
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px;
+  font-weight: 300;
+}
+
+.stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ── Index: hero ────────────────────────────────────────────── */
+.hero-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(48px, 6.5vw, 96px);
+  font-weight: 300;
+  line-height: 1.0;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.hero-desc {
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+/* ── Index: case cards ──────────────────────────────────────── */
+.case-type,
+.case-year {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.case-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 38px;
+  font-weight: 300;
+  line-height: 1.15;
+}
+
+.case-desc {
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.case-tag {
+  font-size: 13px;
+}
+
+.case-link {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ── Index: process steps ───────────────────────────────────── */
+.step-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 72px;
+  font-weight: 300;
+}
+
+.step-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 400;
+}
+
+.step-desc {
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+/* ── Index: about ───────────────────────────────────────────── */
+.about-text p {
+  font-size: 18px;
+  line-height: 1.9;
+}
+
+.aside-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+
+.aside-content {
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.aside-block .pill {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+}
+
+/* ── Index: publications ────────────────────────────────────── */
+.pub-source {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.pub-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 300;
+}
+
+.pub-lang,
+.pub-year {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+}
+
+/* ── Index: contact ─────────────────────────────────────────── */
+.contact-sub {
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.contact-link {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.contact-bottom {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
