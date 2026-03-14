@@ -598,12 +598,12 @@
 
 <footer>
   <a href="index.html">Mary Timofeeva</a> &nbsp;·&nbsp;
-  <a href="mailto:liberiam@gmail.com">liberiam@gmail.com</a> &nbsp;·&nbsp;
+  <a href="/cdn-cgi/l/email-protection#4c20252e293e252d210c2b212d2520622f2321"><span class="__cf_email__" data-cfemail="523e3b3037203b333f12353f333b3e7c313d3f">[email&#160;protected]</span></a> &nbsp;·&nbsp;
   <a href="https://dribbble.com/liberiam" target="_blank">Dribbble</a> &nbsp;·&nbsp;
   <a href="https://www.linkedin.com/in/mary-timofeeva-184484382/" target="_blank">LinkedIn</a>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
 let mx = 0, my = 0, rx = 0, ry = 0;
@@ -636,12 +636,56 @@ document.querySelectorAll('a').forEach(el => {
 });
 
 const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
-  });
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.07 });
-
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+</script>
+
+<!-- ─── Lightbox ─────────────────────────────────────────────── -->
+<div class="lb-overlay" id="lb">
+  <button class="lb-close" id="lb-close">ESC · Close</button>
+  <img id="lb-img" src="" alt="">
+  <div class="lb-caption" id="lb-caption"></div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var overlay = document.getElementById('lb');
+  var lbImg   = document.getElementById('lb-img');
+  var lbCap   = document.getElementById('lb-caption');
+  var lbClose = document.getElementById('lb-close');
+  if (!overlay) return;
+
+  function openLb(src, caption) {
+    lbImg.src = src;
+    lbCap.textContent = caption || '';
+    overlay.classList.add('lb-open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLb() {
+    overlay.classList.remove('lb-open');
+    document.body.style.overflow = '';
+    setTimeout(function() { lbImg.src = ''; }, 260);
+  }
+
+  document.querySelectorAll('.case-img, .gif-item img').forEach(function(img) {
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', function() {
+      var next = img.nextElementSibling;
+      var cap = (next && next.classList.contains('img-caption')) ? next.textContent : '';
+      openLb(img.src, cap);
+    });
+  });
+
+  lbClose.addEventListener('click', closeLb);
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay || e.target === lbImg) closeLb();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLb();
+  });
+});
 </script>
 </body>
 </html>
